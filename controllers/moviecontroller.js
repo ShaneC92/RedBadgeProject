@@ -51,15 +51,15 @@ router.delete("/deleteComment/:id",(req,res)=>{
 })
 //POSTING COMMENTS
 router.post("/comments",(req,res)=>{
-    let comment = {
+    let myComments = {
         comment: req.body.comment,
         owerId: req.user.id,
         movieId: req.body.movieId
     }
-    comment.create(comment)
-        .then(comment=>{
+    comment.create(myComments)
+        .then(data=>{
             res.status(200).json({
-                comment: comment
+                comment: data
             })
         },(err)=>res.send(err,err.message))
         .catch(err=>{
