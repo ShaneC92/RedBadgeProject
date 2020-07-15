@@ -36,7 +36,7 @@ router.put("/commentUpdate/:id",(req,res)=>{
 })
 
 //delete comment
-router.delete("/deleteComment/:id",(req,res)=>{
+router.delete("/:id",(req,res)=>{
     let id = req.params.id;
     comment.destroy({
         where:{
@@ -53,30 +53,37 @@ router.delete("/deleteComment/:id",(req,res)=>{
 router.post("/comments",(req,res)=>{
     let myComments = {
         comment: req.body.comment,
-        owerId: req.user.id,
+        ownerId: req.user.id,
         movieId: req.body.movieId
     }
     comment.create(myComments)
         .then(data=>{
             res.status(200).json({
-                comment: data
+                comments: data
             })
-        },(err)=>res.send(err,err.message))
+        })
         .catch(err=>{
             res.status(500).json({
                 err:err
             })
         })
+    // comment.create(myComments)
+    //     .then(data=>{
+    //         res.status(200).json({
+    //             comment: data
+    //         })
+    //     },(err)=>res.send(err,err.message))
+    //     .catch(err=>{
+    //         res.status(500).json({
+    //             err:err
+    //         })
+    //     })
 
 })
 
 //GET
 router.get("/comments",(req,res)=>{
-    comment.findAll({
-        where:{
-            movieId:req.body.movieId
-        }
-    })
+    comment.findAll()
     .then(comment=>{
         res.status(200).json({
             comment:comment
